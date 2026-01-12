@@ -1,0 +1,28 @@
+name: CI - Self Hosted Backend
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  backend-ci:
+    runs-on: [self-hosted, windows]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm install
+
+      - name: Run backend health check
+        working-directory: backend
+        run: |
+          npm run dev
