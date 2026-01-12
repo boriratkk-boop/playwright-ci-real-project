@@ -20,9 +20,13 @@ jobs:
         working-directory: backend
         run: npm install
 
+      - name: Build backend
+        working-directory: backend
+        run: npm run build
+
       - name: Start backend
         working-directory: backend
-        run: npm start &
+        run: node dist/index.js &
 
       - name: Wait for backend (curl loop)
         run: |
@@ -36,7 +40,6 @@ jobs:
           done
           echo "Backend did not start in time"
           exit 1
-
 
       - name: Health check
         run: curl http://localhost:3001/health
