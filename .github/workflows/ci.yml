@@ -24,8 +24,19 @@ jobs:
         working-directory: backend
         run: npm start &
 
-      - name: Wait for backend to be ready
-        run: npx wait-on http://localhost:3001/health
+      - name: Wait for backend (curl loop)
+        run: |
+          for i in {1..30}; do
+            if curl -s http://localhost:3001/health; then
+              echo "Backend is up"
+              exit 0
+            fi
+            echo "Waiting for backend..."
+            sleep 1
+          done
+          echo "Backend did not start in time"
+          exit 1
+
 
       - name: Health check
         run: curl http://localhost:3001/health
