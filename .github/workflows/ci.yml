@@ -22,8 +22,9 @@ jobs:
 
       - name: Start backend (background)
         working-directory: backend
+        shell: cmd
         run: |
-          Start-Process powershell -ArgumentList "npm run dev"
+          start cmd /c npm run dev
 
       - name: Wait for backend to be ready
         run: npx wait-on http://localhost:3001/health
